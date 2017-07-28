@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="col-lg-12">	
+	<div id="usuarios-tab">
+		<div class="panel panel-default" id="usuarios-tab">
+			<div class="panel-heading">
+				<strong>Resultado da Busca</strong>
+			</div>
+			{% if perfis %}
+			<ul>
+				{% for perfil in perfis %}
+				<li>
+				<a href="{% url 'exibir' perfil.id %}">{{ perfil.nome }} / {{ perfil.email }}</a>
+				<a href="{% url 'convidar' perfil.id %}" class="pull-right">Convidar</a>
+				</li>
+				{% endfor %}
+			</ul>
+			{% else %}
+			<p>Nenhum Perfil encontrado!</p>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock %}
