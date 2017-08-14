@@ -6,7 +6,9 @@ class Perfil(models.Model):
 	telefone = models.CharField(max_length=15, null=False)
 	nome_empresa = models.CharField(max_length=255, null=False)
 	contatos = models.ManyToManyField('self')
+	contatos_bloqueados = models.ManyToManyField('self')
 	usuario = models.OneToOneField(User, related_name='perfil')
+	imagem = models.FileField(null=True)
 
 	@property
 	def email(self):
@@ -16,6 +18,16 @@ class Perfil(models.Model):
 		Convite(solicitante=self, convidado=perfil_convidado).save()
 		#convite = Convite(solicitante=self, convidado=perfil_convidado)
 		#convite.save()
+
+	def bloquear(self, perfil):
+		self.contatos_bloqueados.add(perfil)
+		self.contatos.remove(perfil)
+		perfil.contatos.remove(self)
+
+	def desbloquear(self, perfil):
+		self.contatos_bloqueados.remove(perfil)
+		self.contatos.add(perfil)
+		perfil.contatos.add(self)
 
 class Convite(models.Model):
 	solicitante = models.ForeignKey(Perfil, related_name='convites_feitos')

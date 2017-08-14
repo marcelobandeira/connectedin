@@ -9,6 +9,6 @@ class Post(models.Model):
 	pub_date = models.DateField(auto_now_add=True)
 	perfil =  models.ForeignKey(Perfil, related_name='posts')
 	likes = models.IntegerField(default=0)
-	imagem = models.FileField(upload_to='documents/', null=True)
+	imagem = models.FileField(null=True)
 
 

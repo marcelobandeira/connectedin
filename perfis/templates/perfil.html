@@ -8,10 +8,23 @@
 			<abbr title="Telefone">Tel:</abbr>{{ perfil.telefone }}<br>
 			<a href="mailto:{{ perfil.email }}">{{ perfil.email }}</a>
 		</address>
-		{% if ja_he_contato %}
-			<div class="well well-sm">Vocês estão conectados!</div>
+		{% if ja_he_contato or bloqueado %}
+			{% if bloqueado %}
+				<a href="{% url 'desbloquear' perfil.id %}">Desbloquear</a>
+			{% else %}
+				<div class="well well-sm">Vocês estão conectados!</div>
+				<a href="{% url 'bloquear' perfil.id %}">Bloquear</a>
+			{% endif %}
 		{% else %}
 			<a href="{% url 'convidar' perfil.id %}">Convidar</a>
+		{% endif %}
+		{% if perfil.imagem %}
+			<div class="col-lg-6">
+				<img src="{{ perfil.imagem }}">
+				<button type="button"> Trocar imagem </button>
+			</div>
+		{% else %}
+			<button type="button"></button>
 		{% endif %}
 	</div>
 </div>

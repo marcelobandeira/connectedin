@@ -21,6 +21,27 @@
 			{% endif %}
 		{% endwith %}
 	</div>
+
+	<div class="panel panel-default">
+		{% with total_de_contatos_bloqueados=perfil_logado.contatos_bloqueados.count %}
+			{% if total_de_contatos_bloqueados %}
+			<div class="panel-heading">
+				<strong>Você tem {{ total_de_contatos_bloqueados }} contato{{ total_de_contatos_bloaqueados | pluralize }} bloqueado</strong>
+			</div>
+			<ul class="list-group">
+				{% for contato in perfil_logado.contatos_bloqueados.all %} 
+					<li class="list-group-item">
+						<a href="{% url 'exibir' contato.id %}">{{ contato.nome }}</a>
+					</li>
+				{% endfor %}
+			</ul>
+			{% else %}
+			<div class="panel-body">
+				<p>Você não possui contatos bloqueados no momento :)</p>
+			</div>
+			{% endif %}
+		{% endwith %}
+	</div>
 </div>
 <div class="col-lg-6">
 	<div>
@@ -42,10 +63,10 @@
 	<div>
 		<form action="{% url 'post' %}" method="post" enctype="multipart/form-data">
 		{% csrf_token %}
-		<textarea class="col-lg-12" id="text" name="text" placeholder="Diga alguma coisa."></textarea>
-
-		<hr>
-		<input type="file" name="imagem">
+		<div class="form-group">
+			<textarea class="col-lg-12 form-control" id="text" name="text" placeholder="Diga alguma coisa."></textarea>
+		</div>
+		<input type="file" name="imagem" id="imagem" class="form-control">
 		{% if form.errors %}
 			<div class="alert alert-danger">
 				<button type="button" class="close">&times;</button>
